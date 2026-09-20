@@ -64,7 +64,7 @@ Swagger UI will be available at:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/[your-username]/payment-risk-engine.git
+git clone https://github.com/Karan-Rastogi/payment-risk-engine.git
 cd payment-risk-engine
 
 # 2. Copy environment file
