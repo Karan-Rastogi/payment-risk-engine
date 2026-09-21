@@ -1,4 +1,4 @@
-package com.karan.risk.payment_risk_engine;
+package com.karan.risk.paymentriskengine;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
