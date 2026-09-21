@@ -1,4 +1,4 @@
-package com.karan.risk.payment_risk_engine;
+package com.karan.risk.paymentriskengine;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
