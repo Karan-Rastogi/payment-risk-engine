@@ -31,3 +31,8 @@ logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
     com.karan.risk.paymentriskengine: ${LOG_LEVEL_APP:DEBUG}
+
+rules:
+  velocity:
+    max-transactions: 5
+    window-minutes: 10
