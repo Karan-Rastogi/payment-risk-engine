@@ -24,6 +24,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Flyway migration `V1__create_payments_table.sql`
     - `application.yaml` config with env-var placeholders
 
+### Added
+- **Module 2: Rule Engine + Risk Scoring**
+    - `Rule` interface (Strategy pattern) for pluggable rules
+    - `RuleEngine` orchestrator with fail-safe evaluation
+    - `RuleContext` and `RuleResult` records
+    - `VelocityRule` — sliding window transaction counter
+    - `AmountThresholdRule` — tiered amount scoring
+    - `GeoAnomalyRule` — high-risk country + home mismatch detection
+    - `BlacklistRule` — sender/receiver blacklist checks
+    - `DecisionEngine` — configurable APPROVE/REVIEW/DECLINE thresholds
+    - `RiskScore` record for full audit trail
+    - Wired into `PaymentServiceImpl` — every payment now scored
+    - Flyway migration `V2` adds `ip_country` column
+  
 ### Changed
 - Nothing yet
 
