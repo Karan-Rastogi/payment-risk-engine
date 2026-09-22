@@ -44,3 +44,5 @@ rules:
     high-risk-countries: KP,IR,SY,CU
     high-risk-score: 80
     mismatch-score: 40
+  blacklist:
+    entries: SUSPECT_001,FRAUD_999,MULE_042
