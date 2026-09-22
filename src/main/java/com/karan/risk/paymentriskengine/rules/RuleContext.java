@@ -6,14 +6,20 @@ import java.time.Instant;
 
 /**
  * Immutable context passed to every rule.
- * Contains the payment under evaluation plus any auxiliary data (history, geo, etc.)
- * that rules need. Extended in later modules (Redis history, geo lookup, blacklist cache).
+ *
+ * @param payment         the payment under evaluation
+ * @param evaluationTime  when the evaluation is happening
+ * @param homeCountry     the sender's registered/home country (ISO 3166 alpha-2), nullable
  */
 public record RuleContext(
     Payment payment,
-    Instant evaluationTime
+    Instant evaluationTime,
+    String homeCountry
 ) {
     public static RuleContext of(Payment payment) {
-        return new RuleContext(payment, Instant.now());
+        return new RuleContext(payment, Instant.now(), null);
+    }
+    public static RuleContext of(Payment payment, String homeCountry) {
+        return new RuleContext(payment, Instant.now(), homeCountry);
     }
 }

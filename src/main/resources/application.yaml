@@ -40,3 +40,7 @@ rules:
     elevated: 10000
     high: 100000
     critical: 1000000
+  geo:
+    high-risk-countries: KP,IR,SY,CU
+    high-risk-score: 80
+    mismatch-score: 40
