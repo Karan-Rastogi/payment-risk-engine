@@ -39,6 +39,9 @@ public class Payment {
     @Column(name = "ip_address", length = 45)
     private String ipAddress;
 
+    @Column(name = "ip_country", length = 2)
+    private String ipCountry;
+
     @Column(name = "device_id", length = 128)
     private String deviceId;
 
@@ -112,6 +115,9 @@ public class Payment {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
+
+    public String getIpCountry() { return ipCountry; }
+    public void setIpCountry(String ipCountry) { this.ipCountry = ipCountry; }
 
     public String getDeviceId() {
         return deviceId;

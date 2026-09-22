@@ -31,6 +31,9 @@ public record PaymentRequest (
     @Size(max = 45, message = "ipAddress must not exceed 45 characters")
     String ipAddress,
 
+    @Size(min = 2, max = 2, message = "ipCountry must be a 2-letter ISO code")
+    String ipCountry,
+
     @Size(max = 128, message = "deviceId must not exceed 128 characters")
     String deviceId
 

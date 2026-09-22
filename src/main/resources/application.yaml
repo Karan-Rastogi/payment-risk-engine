@@ -31,3 +31,22 @@ logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
     com.karan.risk.paymentriskengine: ${LOG_LEVEL_APP:DEBUG}
+
+rules:
+  velocity:
+    max-transactions: 5
+    window-minutes: 10
+  amount:
+    elevated: 10000
+    high: 100000
+    critical: 1000000
+  geo:
+    high-risk-countries: KP,IR,SY,CU
+    high-risk-score: 80
+    mismatch-score: 40
+  blacklist:
+    entries: SUSPECT_001,FRAUD_999,MULE_042
+  scoring:
+    thresholds:
+      review: 30
+      decline: 70

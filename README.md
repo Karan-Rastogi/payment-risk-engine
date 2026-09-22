@@ -33,10 +33,10 @@ or decline it — the same core problem JP Morgan, Visa, and Stripe solve at sca
 
 ## 🚀 Features
 
-- [ ] Payment intake API (REST endpoint with validation)
-- [ ] Project scaffolding & docs
-- [ ] Rule engine (velocity, geo, amount, blacklist)
-- [ ] Risk scoring + decision engine
+- [x] Payment intake API (REST endpoint with validation)
+- [x] Project scaffolding & docs
+- [x] Rule engine (velocity, geo, amount, blacklist)
+- [x] Risk scoring + decision engine
 - [ ] Audit log & persistence layer
 - [ ] Redis-based velocity counters
 - [ ] Kafka event publishing
