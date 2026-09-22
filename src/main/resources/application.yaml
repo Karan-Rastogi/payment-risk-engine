@@ -36,3 +36,7 @@ rules:
   velocity:
     max-transactions: 5
     window-minutes: 10
+  amount:
+    elevated: 10000
+    high: 100000
+    critical: 1000000
