@@ -46,3 +46,7 @@ rules:
     mismatch-score: 40
   blacklist:
     entries: SUSPECT_001,FRAUD_999,MULE_042
+  scoring:
+    thresholds:
+      review: 30
+      decline: 70

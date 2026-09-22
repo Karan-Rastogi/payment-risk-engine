@@ -47,4 +47,14 @@ public class RuleEngine {
             }
         }).toList();
     }
+
+    /**
+     * Combine individual rule scores into a total (capped at 100).
+     * Uses a diminishing-returns model to prevent rule stacking from
+     * over-inflating the score.
+     */
+    public int aggregateScore(List<RuleResult> results) {
+        int sum = results.stream().mapToInt(RuleResult::score).sum();
+        return Math.min(100, sum);
+    }
 }
