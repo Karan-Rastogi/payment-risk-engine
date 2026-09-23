@@ -1,7 +1,6 @@
 package com.karan.risk.paymentriskengine.domain;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 import java.util.UUID;
 
