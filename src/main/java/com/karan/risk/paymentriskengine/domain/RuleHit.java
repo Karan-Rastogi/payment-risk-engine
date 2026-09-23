@@ -1,6 +1,7 @@
 package com.karan.risk.paymentriskengine.domain;
 
 import jakarta.persistence.*;
+
 import java.time.Instant;
 import java.util.UUID;
 
@@ -21,8 +22,9 @@ import java.util.UUID;
     }
 )
 public class RuleHit {
+
     @Id
-    @GeneratedValue(strategy =  GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
@@ -46,54 +48,23 @@ public class RuleHit {
         this.createdAt = Instant.now();
     }
 
-    //getters and setters
+    // Getters and setters
 
-    public UUID getId() {
-        return id;
-    }
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    public UUID getPaymentId() { return paymentId; }
+    public void setPaymentId(UUID paymentId) { this.paymentId = paymentId; }
 
-    public UUID getPaymentId() {
-        return paymentId;
-    }
+    public String getRuleName() { return ruleName; }
+    public void setRuleName(String ruleName) { this.ruleName = ruleName; }
 
-    public void setPaymentId(UUID paymentId) {
-        this.paymentId = paymentId;
-    }
+    public int getScore() { return score; }
+    public void setScore(int score) { this.score = score; }
 
-    public String getRuleName() {
-        return ruleName;
-    }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
+    public Instant getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
 }
-
