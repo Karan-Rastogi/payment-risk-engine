@@ -10,6 +10,7 @@ import com.karan.risk.paymentriskengine.rules.RuleEngine;
 import com.karan.risk.paymentriskengine.rules.RuleResult;
 import com.karan.risk.paymentriskengine.scoring.DecisionEngine;
 import com.karan.risk.paymentriskengine.service.PaymentService;
+import com.karan.risk.paymentriskengine.service.RuleHitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,19 +18,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class PaymentServiceImpl implements PaymentService {
+
     private static final Logger log = LoggerFactory.getLogger(PaymentServiceImpl.class);
+
     private final PaymentRepository paymentRepository;
+    private final RuleHitService ruleHitService;
     private final RuleEngine ruleEngine;
     private final DecisionEngine decisionEngine;
 
-
     public PaymentServiceImpl(PaymentRepository paymentRepository,
+                              RuleHitService ruleHitService,
                               RuleEngine ruleEngine,
                               DecisionEngine decisionEngine) {
         this.paymentRepository = paymentRepository;
+        this.ruleHitService = ruleHitService;
         this.ruleEngine = ruleEngine;
         this.decisionEngine = decisionEngine;
     }
@@ -37,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public PaymentResponse processPayment(PaymentRequest request) {
-        log.info("Processing Payment from={} to={} amount={} {}",
+        log.info("Processing payment from={} to={} amount={} {}",
             request.senderId(), request.receiverId(),
             request.amount(), request.currency());
 
@@ -53,8 +57,8 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setDeviceId(request.deviceId());
         payment.setStatus(PaymentStatus.RECEIVED);
 
-        // Step 2: Run rule engine
-        RuleContext context = RuleContext.of(payment, null); // homeCountry null for now
+        // Step 2: Evaluate rules
+        RuleContext context = RuleContext.of(payment, null);
         List<RuleResult> ruleResults = ruleEngine.evaluateAll(context);
 
         // Step 3: Aggregate + decide
@@ -68,8 +72,14 @@ public class PaymentServiceImpl implements PaymentService {
         // Step 4: Apply decision
         payment.setStatus(decision);
 
-        // Step 5: Persist
+        // Step 5: Persist payment
         Payment saved = paymentRepository.save(payment);
+
+        // Step 6: Persist rule hits (audit trail)
+        ruleHitService.recordHits(saved.getId(), ruleResults);
+
+        log.info("Payment persisted id={} status={} auditHits={}",
+            saved.getId(), saved.getStatus(), ruleResults.size());
 
         return new PaymentResponse(
             saved.getId(),
