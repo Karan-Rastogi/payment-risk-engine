@@ -37,7 +37,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `RiskScore` record for full audit trail
     - Wired into `PaymentServiceImpl` — every payment now scored
     - Flyway migration `V2` adds `ip_country` column
-  
+
+### Added
+- **Module 3: Audit Trail + Admin API + Tests**
+    - `RuleHit` JPA entity — persisted record of every rule evaluation
+    - `RuleHitRepository` + `RuleHitService` for audit persistence
+    - `PaymentServiceImpl` now persists rule hits atomically with payment
+    - `AdminController` with 3 endpoints:
+        - `GET /api/v1/admin/payments/{id}` — payment detail with rule hits
+        - `GET /api/v1/admin/payments/flagged` — REVIEW + DECLINED list
+        - `POST /api/v1/admin/payments/{id}/override` — manual override
+    - `PaymentNotFoundException` + 404 handler
+    - `OverrideRequest` DTO with mandatory reason (compliance requirement)
+    - Flyway migration `V3__create_rule_hits_table.sql` with FK + indexes
+    - **22 unit tests** across `DecisionEngine`, `AmountThresholdRule`, `RuleEngine`, `VelocityRule`, `RuleHitServiceImpl`
+    - JDBC timezone enforced to UTC (production-grade consistency)
+
 ### Changed
 - Nothing yet
 
