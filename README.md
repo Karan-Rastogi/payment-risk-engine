@@ -37,7 +37,9 @@ or decline it — the same core problem JP Morgan, Visa, and Stripe solve at sca
 - [x] Project scaffolding & docs
 - [x] Rule engine (velocity, geo, amount, blacklist)
 - [x] Risk scoring + decision engine
-- [ ] Audit log & persistence layer
+- [x] Audit log & persistence layer
+- [x] Admin API (flagged transactions, manual overrides)
+- [x] Unit tests (JUnit 5 + Mockito + AssertJ)
 - [ ] Redis-based velocity counters
 - [ ] Kafka event publishing
 - [ ] Admin dashboard (flagged transactions, overrides)
@@ -54,6 +56,38 @@ Swagger UI will be available at:
 *(Link will be live once the API module is complete.)*
 
 ## 🧪 How to Run
+
+## 🧪 Testing Strategy
+
+### Unit Tests (Current — 22 tests)
+
+Located in `src/test/java/`:
+
+| Test Class | Coverage |
+| :--- | :--- |
+| `DecisionEngineTest` | Threshold boundaries (0/29/30/69/70/100) |
+| `AmountThresholdRuleTest` | Tier boundaries with `BigDecimal` |
+| `VelocityRuleTest` | Sliding window, sender isolation |
+| `RuleEngineTest` | Aggregation, cap at 100, fail-safe behaviour |
+| `RuleHitServiceImplTest` | Audit persistence (Mockito) |
+
+**Characteristics:**
+- No infrastructure required — run in milliseconds
+- Cover business logic, not framework wiring
+- Run on every commit
+- Command: `./mvnw test`
+
+### Integration Tests (Module 6 — Planned)
+
+Will use **Testcontainers** to spin up real PostgreSQL per test run:
+- Full Spring context load
+- JPA repository queries against real DB
+- Flyway migrations
+- End-to-end API tests via `MockMvc`
+
+**Why not H2?** H2 and PostgreSQL differ in edge cases (JSON, indexes, constraints). Testcontainers gives production-equivalent behaviour.
+
+**Why was the default `contextLoads` removed?** It required a manually-managed local PostgreSQL. That's not reproducible in CI. Testcontainers solves this properly.
 
 ### Prerequisites
 - Java 17+
