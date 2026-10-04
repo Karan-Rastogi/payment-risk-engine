@@ -11,7 +11,8 @@ spring:
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     hikari:
-      connection-init-sql: SET TIME ZONE 'Asia/Kolkata'
+      data-source-properties:
+        options: "-c TimeZone=UTC"
 
   jpa:
     hibernate:
@@ -20,11 +21,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
 
 server:
   port: ${APP_PORT:8080}
@@ -33,6 +29,7 @@ logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
     com.karan.risk.paymentriskengine: ${LOG_LEVEL_APP:DEBUG}
+    org.flywaydb: DEBUG
 
 rules:
   velocity:
@@ -48,7 +45,8 @@ rules:
     mismatch-score: 40
   blacklist:
     entries: SUSPECT_001,FRAUD_999,MULE_042
-  scoring:
-    thresholds:
-      review: 30
-      decline: 70
+
+scoring:
+  thresholds:
+    review: 30
+    decline: 70
