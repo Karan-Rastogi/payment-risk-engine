@@ -31,7 +31,7 @@ public class AdminController {
         this.ruleHitService = ruleHitService;
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<PaymentDetailResponse> getPaymentDetail(@PathVariable UUID id) {
         Payment payment = paymentRepository.findById(id)
             .orElseThrow(() -> new PaymentNotFoundException(id));
@@ -44,7 +44,7 @@ public class AdminController {
         return ResponseEntity.ok(PaymentDetailResponse.from(payment, hits));
     }
 
-    @PostMapping("/flagged")
+    @GetMapping("/flagged")
     public ResponseEntity<List<PaymentDetailResponse>> getFlaggedPayments() {
         List<Payment> flagged = paymentRepository.findByStatusIn(
             List.of(PaymentStatus.REVIEW, PaymentStatus.DECLINED));
