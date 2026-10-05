@@ -9,6 +9,7 @@ import com.karan.risk.paymentriskengine.rules.RuleContext;
 import com.karan.risk.paymentriskengine.rules.RuleEngine;
 import com.karan.risk.paymentriskengine.rules.RuleResult;
 import com.karan.risk.paymentriskengine.scoring.DecisionEngine;
+import com.karan.risk.paymentriskengine.service.PaymentEventPublisher;
 import com.karan.risk.paymentriskengine.service.PaymentService;
 import com.karan.risk.paymentriskengine.service.RuleHitService;
 import org.slf4j.Logger;
@@ -27,15 +28,18 @@ public class PaymentServiceImpl implements PaymentService {
     private final RuleHitService ruleHitService;
     private final RuleEngine ruleEngine;
     private final DecisionEngine decisionEngine;
+    private final PaymentEventPublisher eventPublisher;
 
     public PaymentServiceImpl(PaymentRepository paymentRepository,
                               RuleHitService ruleHitService,
                               RuleEngine ruleEngine,
-                              DecisionEngine decisionEngine) {
+                              DecisionEngine decisionEngine,
+                              PaymentEventPublisher eventPublisher) {
         this.paymentRepository = paymentRepository;
         this.ruleHitService = ruleHitService;
         this.ruleEngine = ruleEngine;
         this.decisionEngine = decisionEngine;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -80,6 +84,9 @@ public class PaymentServiceImpl implements PaymentService {
 
         log.info("Payment persisted id={} status={} auditHits={}",
             saved.getId(), saved.getStatus(), ruleResults.size());
+
+        // Step 7: Publish event (after commit — see note below)
+        eventPublisher.publish(saved);
 
         return new PaymentResponse(
             saved.getId(),
