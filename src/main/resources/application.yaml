@@ -5,6 +5,11 @@ spring:
   profiles:
     active: dev
 
+  jackson:
+    datatype:
+      datetime:
+        write-dates-as-timestamps: false
+
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/riskengine}
     username: ${DB_USER:postgres}
@@ -13,6 +18,30 @@ spring:
     hikari:
       data-source-properties:
         options: "-c TimeZone=UTC"
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 1
+    topic:
+      payment-events: payment.events
 
   jpa:
     hibernate:
@@ -29,7 +58,6 @@ logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
     com.karan.risk.paymentriskengine: ${LOG_LEVEL_APP:DEBUG}
-    org.flywaydb: DEBUG
 
 rules:
   velocity:

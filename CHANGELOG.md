@@ -53,6 +53,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - **22 unit tests** across `DecisionEngine`, `AmountThresholdRule`, `RuleEngine`, `VelocityRule`, `RuleHitServiceImpl`
     - JDBC timezone enforced to UTC (production-grade consistency)
 
+### Added
+- **Module 4: Redis Velocity + Kafka Events**
+    - `docker-compose.yml` with PostgreSQL, Redis, Kafka, Zookeeper
+    - `RedisVelocityCounter` — Redis sorted sets (`ZADD`, `ZREMRANGEBYSCORE`, `ZCARD`)
+    - `VelocityRule` migrated to Redis-backed distributed counters
+    - `PaymentEvent` DTO — flat schema with `eventId`, `eventType`, `decision`
+    - `KafkaConfig` — auto-creates `payment.events` topic (3 partitions)
+    - `PaymentEventPublisher` — async publishing with partition/offset logging
+    - Wired into `PaymentServiceImpl` — every decision publishes an event
+    - Jackson configured to serialize `Instant` as ISO-8601
+    - 3 new unit tests for `PaymentEventPublisher`
+
 ### Changed
 - Nothing yet
 

@@ -40,10 +40,10 @@ or decline it — the same core problem JP Morgan, Visa, and Stripe solve at sca
 - [x] Audit log & persistence layer
 - [x] Admin API (flagged transactions, manual overrides)
 - [x] Unit tests (JUnit 5 + Mockito + AssertJ)
-- [ ] Redis-based velocity counters
-- [ ] Kafka event publishing
-- [ ] Admin dashboard (flagged transactions, overrides)
-- [ ] Docker & docker-compose setup
+- [x] Redis-based velocity counters
+- [x] Kafka event publishing
+- [x] Admin dashboard (flagged transactions, overrides)
+- [x] Docker & docker-compose setup
 - [ ] CI pipeline with GitHub Actions
 - [ ] Swagger / OpenAPI docs
 - [ ] Load testing & benchmarks
@@ -56,6 +56,21 @@ Swagger UI will be available at:
 *(Link will be live once the API module is complete.)*
 
 ## 🧪 How to Run
+
+## 🐳 Local Infrastructure
+
+The entire local stack runs via Docker Compose:
+
+| Service | Port | Purpose |
+| :--- | :--- | :--- |
+| PostgreSQL 16 | 5432 | Transaction & audit persistence |
+| Redis 7 | 6379 | Velocity counters (sorted sets) |
+| Kafka 7.6 | 9092 | Event publishing (`payment.events` topic) |
+| Zookeeper | 2181 | Kafka coordination |
+
+Start all services:
+```bash
+docker-compose up -d
 
 ## 🧪 Testing Strategy
 
