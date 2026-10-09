@@ -57,6 +57,47 @@ Swagger UI will be available at:
 
 ## 🧪 How to Run
 
+## 🔐 Security
+
+### Authentication
+
+Two mechanisms:
+
+| Endpoint Type | Auth | Details |
+| :--- | :--- | :--- |
+| `POST /api/v1/auth/login` | Public | Returns JWT on valid credentials |
+| `POST /api/v1/payments` | Public (dev) / API Key (prod) | Payment intake |
+| `GET /api/v1/admin/**` | JWT | Requires valid Bearer token |
+| `POST /api/v1/admin/**/override` | JWT | Requires SENIOR_ANALYST or ADMIN role |
+
+### Roles
+
+| Role | Permissions |
+| :--- | :--- |
+| `ANALYST` | Read flagged payments, view payment details |
+| `SENIOR_ANALYST` | All ANALYST permissions + override decisions |
+| `ADMIN` | Full access (future: user management) |
+
+### Login Flow
+
+```bash
+# 1. Login
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"analyst","password":"analyst123"}'
+
+# Response
+{
+  "token": "eyJhbGciOiJIUzM4NCJ9...",
+  "type": "Bearer",
+  "expiresIn": 86400
+}
+
+# 2. Use token for admin endpoints
+curl -X GET http://localhost:8080/api/v1/admin/payments/flagged \
+  -H "Authorization: Bearer eyJhbGciOiJIUzM4NCJ9..." 
+  ```
+
 ## 🐳 Local Infrastructure
 
 The entire local stack runs via Docker Compose:
@@ -71,7 +112,7 @@ The entire local stack runs via Docker Compose:
 Start all services:
 ```bash
 docker-compose up -d
-
+```
 ## 🧪 Testing Strategy
 
 ### Unit Tests (Current — 22 tests)

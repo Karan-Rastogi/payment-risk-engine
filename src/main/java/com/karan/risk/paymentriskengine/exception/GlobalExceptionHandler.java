@@ -46,4 +46,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    public ResponseEntity<Map<String, Object>> handleAuthenticationException(
+        org.springframework.security.core.AuthenticationException ex) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("timestamp", java.time.Instant.now());
+        error.put("status", org.springframework.http.HttpStatus.UNAUTHORIZED.value());
+        error.put("message", "Invalid credentials");
+        return ResponseEntity.status(org.springframework.http.HttpStatus.UNAUTHORIZED).body(error);
+    }
+
 }
