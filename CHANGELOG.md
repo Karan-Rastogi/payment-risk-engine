@@ -65,6 +65,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Jackson configured to serialize `Instant` as ISO-8601
     - 3 new unit tests for `PaymentEventPublisher`
 
+### Added
+- **Module 5: JWT Authentication & Role-Based Access Control**
+    - `User` entity + `UserRepository` for application users
+    - Flyway migrations `V4` (users table) and `V5` (dev seed users)
+    - `JwtService` — HMAC-SHA256 token generation and validation
+    - `AppUserDetailsService` — Spring Security UserDetailsService backed by DB
+    - `AuthController` — `POST /api/v1/auth/login` with JWT response
+    - `JwtAuthenticationFilter` — validates Bearer tokens on every request
+    - Role-based rules: ANALYST (read), SENIOR_ANALYST (override), ADMIN (full)
+    - Custom 401/403 JSON responses via AuthenticationEntryPoint + AccessDeniedHandler
+    - Bcrypt password hashing (10 rounds)
+    - 11 new tests: `JwtServiceTest`, `JwtAuthenticationFilterTest`
+    - Total: 39 unit tests
+
 ### Changed
 - Nothing yet
 
