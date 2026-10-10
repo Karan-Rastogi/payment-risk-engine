@@ -2,7 +2,6 @@ spring:
   application:
     name: payment-risk-engine-test
 
-  # Testcontainers will override these dynamically
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -46,3 +45,23 @@ logging:
     org.testcontainers: INFO
     com.github.dockerjava: WARN
     org.springframework.test: INFO
+
+rules:
+  velocity:
+    max-transactions: 5
+    window-minutes: 10
+  amount:
+    elevated: 10000
+    high: 100000
+    critical: 1000000
+  geo:
+    high-risk-countries: KP,IR,SY,CU
+    high-risk-score: 80
+    mismatch-score: 40
+  blacklist:
+    entries: FRAUD_999,SUSPECT_001,MULE_042
+
+scoring:
+  thresholds:
+    review: 30
+    decline: 70

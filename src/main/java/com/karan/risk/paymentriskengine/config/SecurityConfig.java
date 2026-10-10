@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.time.Instant;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "test"})
 public class SecurityConfig {
 
     @Bean
