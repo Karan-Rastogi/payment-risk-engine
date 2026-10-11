@@ -44,8 +44,8 @@ or decline it — the same core problem JP Morgan, Visa, and Stripe solve at sca
 - [x] Kafka event publishing
 - [x] Admin dashboard (flagged transactions, overrides)
 - [x] Docker & docker-compose setup
-- [ ] CI pipeline with GitHub Actions
-- [ ] Swagger / OpenAPI docs
+- [x] CI pipeline with GitHub Actions
+- [x] Swagger / OpenAPI docs
 - [ ] Load testing & benchmarks
 
 ## 📚 API Docs
@@ -56,6 +56,45 @@ Swagger UI will be available at:
 *(Link will be live once the API module is complete.)*
 
 ## 🧪 How to Run
+
+## 🧪 Testing
+
+### Unit Tests (39 tests)
+
+| Test Class | Tests | Coverage |
+| :--- | ---: | :--- |
+| `DecisionEngineTest` | 6 | Threshold boundaries (0/29/30/69/70/100) |
+| `AmountThresholdRuleTest` | 5 | Tier boundaries with `BigDecimal` |
+| `VelocityRuleTest` | 5 | Sliding window, sender isolation |
+| `RuleEngineTest` | 4 | Aggregation, cap at 100, fail-safe |
+| `RuleHitServiceImplTest` | 4 | Audit persistence (Mockito) |
+| `JwtServiceTest` | 6 | Token generation, validation, expiry |
+| `JwtAuthenticationFilterTest` | 5 | Header parsing, fail-safe |
+| `PaymentEventPublisherTest` | 3 | Event publishing, unique IDs |
+| `PaymentRiskEngineApplicationTests` | 1 | Bootstrap sanity |
+
+### Integration Tests (9 tests with Testcontainers)
+
+| Test Class | Tests | Coverage |
+| :--- | ---: | :--- |
+| `PaymentIntakeIntegrationTest` | 3 | End-to-end HTTP → DB → Kafka |
+| `AuthControllerIntegrationTest` | 5 | Login + RBAC |
+| `SmokeIntegrationTest` | 1 | Context load with real infra |
+
+All integration tests use **Testcontainers** — real PostgreSQL, Redis, and Kafka. No mocks.
+
+### Running Tests
+
+```bash
+# All tests
+./mvnw clean verify
+
+# Unit tests only
+./mvnw test
+
+# Integration tests only
+./mvnw test -Dtest='*IntegrationTest'
+```
 
 ## 🔐 Security
 

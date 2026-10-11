@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.time.Instant;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "test"})
 public class SecurityConfig {
 
     @Bean
@@ -38,6 +38,10 @@ public class SecurityConfig {
                 // Public endpoints
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/payments").permitAll()
+
+                // Swagger UI / OpenAPI docs
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html",
+                    "/v3/api-docs/**", "/swagger-resources/**").permitAll()
 
                 // Admin GET endpoints — any authenticated analyst
                 .requestMatchers(HttpMethod.GET, "/api/v1/admin/payments/**")

@@ -79,6 +79,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - 11 new tests: `JwtServiceTest`, `JwtAuthenticationFilterTest`
     - Total: 39 unit tests
 
+### Added
+- **Module 6: Integration Tests, CI & Swagger**
+    - Testcontainers setup for real PostgreSQL, Redis, Kafka in tests
+    - `PaymentIntakeIntegrationTest` — 3 end-to-end tests
+    - `AuthControllerIntegrationTest` — 5 auth + RBAC tests
+    - `SmokeIntegrationTest` — context load with real infra
+    - `GlobalExceptionHandler` scoped to controller package
+    - Swagger UI at `/swagger-ui.html` with JWT Bearer scheme
+    - OpenAPI JSON spec at `/v3/api-docs`
+    - GitHub Actions CI workflow (`.github/workflows/ci.yml`)
+    - All 48 tests running automatically on every push and PR
+
 ### Changed
 - Nothing yet
 

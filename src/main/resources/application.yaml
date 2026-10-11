@@ -60,6 +60,16 @@ spring:
 server:
   port: ${APP_PORT:8080}
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    display-request-duration: true
+    disable-swagger-default-url: true
+
 logging:
   level:
     root: ${LOG_LEVEL_ROOT:INFO}
