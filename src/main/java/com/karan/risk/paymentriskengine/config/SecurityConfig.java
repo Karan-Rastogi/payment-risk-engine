@@ -39,6 +39,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/payments").permitAll()
 
+                // Swagger UI / OpenAPI docs
+                .requestMatchers("/swagger-ui/**", "/swagger-ui.html",
+                    "/v3/api-docs/**", "/swagger-resources/**").permitAll()
+
                 // Admin GET endpoints — any authenticated analyst
                 .requestMatchers(HttpMethod.GET, "/api/v1/admin/payments/**")
                 .hasAnyRole("ANALYST", "SENIOR_ANALYST", "ADMIN")
